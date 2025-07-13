@@ -67,18 +67,7 @@ for filename in os.listdir(html_dir):
             print(f"{k}: {v}")
 
 
-# データフレーム化、googleスプレッドシートに出力
+# データフレーム化、csvファイルに出力
 df = pd.DataFrame(all_data)
-gc = gspread.service_account(
-    filename=r'RealEstate\test.json'
-)
-sh = gc.create(
-    '不動産データ',
-    folder_id='1Xq3G6YSMN7IXc_Je3pKDD1hQmuhPPYuK'
-)
-ws = sh.get_worksheet(0)
-ws.update(
-    [df.columns.values.tolist()]
-    + df.values.tolist()
-)
-print("✅ Googleスプレッドシートに出力しました")
+df.to_csv(os.path.join(dir_name, 'real_estate_data.csv'), index=False, encoding='utf-8-sig')
+print("データの抽出とCSVファイルへの保存が完了しました。")
